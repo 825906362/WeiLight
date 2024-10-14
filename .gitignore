@@ -10,3 +10,11 @@ Packages/
 UserSettings/
 
 .vsconfig
+
+.vs/
+
+obj/
+
+Temp/
+
+Assembly-CSharp.csproj
