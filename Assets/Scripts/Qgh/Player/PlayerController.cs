@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;              // 地面层
     public Transform groundCheck;              // 地面检测点
     public float groundCheckRadius = 0.2f;     // 地面检测半径
+    
 
     private Rigidbody2D rb;
     private bool isJumping = false;            //标记 跳跃
@@ -32,6 +33,9 @@ public class PlayerController : MonoBehaviour
     private bool isBigJump = false;            //标记 大跳
     private Animator animator;
     private bool isGrounded;                   // 是否在地面上
+    public SpawnManager spawnManager; // 复活点管理器引用
+
+
 
     void Start()
     {
@@ -229,6 +233,27 @@ public class PlayerController : MonoBehaviour
         // 在Scene视图中绘制地面检测的范围
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+
+    private void Update()
+    {
+        // 示例：按R键死亡
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        // 执行死亡逻辑
+        Transform nearestSpawnPoint = spawnManager.GetNearestSpawnPoint(transform.position);
+        if (nearestSpawnPoint != null)
+        {
+            transform.position = nearestSpawnPoint.position; // 传送到最近复活点
+            transform.rotation = nearestSpawnPoint.rotation; // 可选：同步旋转
+        }
     }
 
 }
